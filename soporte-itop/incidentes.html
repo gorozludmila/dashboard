@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Incidentes | Soporte iTop</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+
+<body data-tipo="Incidente">
+    <header class="topbar">
+        <div class="brand">
+            <div class="brandmark">SF</div>
+            <div><strong>Soporte Timbó y Firma Digital</strong><small>Unidad de Gestión Digital</small></div>
+        </div><a class="back" href="../portal.html">← Panel de accesos</a>
+    </header>
+    <div class="layout">
+        <aside class="sidebar">
+            <h3>Soporte iTop</h3>
+            <nav class="nav"><a href="index.html">Inicio</a><a class="active" href="incidentes.html">Incidentes</a><a
+                    href="requerimientos.html">Requerimientos</a><a href="ministerios.html">Ministerios y
+                    Organismos</a><a href="administradores.html">Administradores Locales</a></nav>
+        </aside>
+        <main class="content">
+            <section class="hero"><span class="eyebrow">UGD · iTop</span>
+                <h1>Incidentes</h1>
+                <p>Análisis exclusivo de Incidentes: volumen, origen, organismos, administradores, servicios, estados y
+                    detalle.</p>
+            </section>
+            <section class="toolbar">
+                <div class="field"><label>Desde</label><input type="date" id="desde"></div>
+                <div class="field"><label>Hasta</label><input type="date" id="hasta"></div>
+                <div class="field"><label>Ministerio</label><select id="ministerio">
+                        <option value="">Todos</option>
+                    </select></div>
+                <div class="field"><label>Organismo</label><select id="organismo">
+                        <option value="">Todos</option>
+                    </select></div>
+                <div class="field"><label>Estado</label><select id="estado">
+                        <option value="">Todos</option>
+                    </select></div>
+                <div class="field"><label>Servicio</label><select id="servicio">
+                        <option value="">Todos</option>
+                    </select></div>
+                <div class="field"><label>Persona</label><select id="persona_tipo">
+                        <option value="reportado">Reportado por</option>
+                        <option value="admin">Administrador Local</option>
+                        <option value="creador">Creador</option>
+                        <option value="analista">Analista UGD</option>
+                    </select></div>
+                <div class="field"><label>Nombre</label><select id="persona">
+                        <option value="">Todas</option>
+                    </select></div>
+                <div class="quick"><button type="button" data-periodo="semana">Semana</button><button type="button"
+                        data-periodo="mes">Mes</button><button type="button" data-periodo="anio">Año</button></div>
+                <button class="btn btn-primary" id="btnFiltrar" type="button">Aplicar filtros</button><button
+                    class="btn btn-light" id="btnLimpiar" type="button">Limpiar</button>
+            </section>
+            <section class="kpis" style="grid-template-columns:repeat(3,1fr)">
+                <article class="kpi"><span>Total</span><strong id="kTotal">0</strong></article>
+                <article class="kpi pink"><span>Abiertos</span><strong id="kAbiertos">0</strong></article>
+                <article class="kpi green"><span>Cerrados / solucionados</span><strong id="kCerrados">0</strong>
+                </article>
+            </section>
+            <section class="grid equal">
+                <article class="card">
+                    <h3>Por Ministerio</h3>
+                    <div class="chart"><canvas id="chartMinisterio"></canvas></div>
+                </article>
+                <article class="card">
+                    <h3>Por Organismo</h3>
+                    <div class="chart"><canvas id="chartOrganismo"></canvas></div>
+                </article>
+            </section>
+            <section class="grid equal">
+                <article class="card">
+                    <h3>Por Administrador Local</h3>
+                    <div class="chart"><canvas id="chartAdmin"></canvas></div>
+                </article>
+                <article class="card">
+                    <h3>Por persona que reporta</h3>
+                    <div class="chart"><canvas id="chartReportante"></canvas></div>
+                </article>
+            </section>
+            <section class="grid equal">
+                <article class="card">
+                    <h3>Por Servicio</h3>
+                    <div class="chart"><canvas id="chartServicio"></canvas></div>
+                </article>
+                <article class="card">
+                    <h3>Por Estado</h3>
+                    <div class="chart"><canvas id="chartEstado"></canvas></div>
+                </article>
+            </section>
+            <article class="card">
+                <h3>Detalle de tickets</h3>
+                <div class="subtitle">Se muestran hasta 200 registros del filtro actual.</div>
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Ref</th>
+                                <th>Fecha</th>
+                                <th>Ministerio</th>
+                                <th>Organismo</th>
+                                <th>Reportado por</th>
+                                <th>Admin Local</th>
+                                <th>Servicio</th>
+                                <th>Estado</th>
+                                <th>Analista</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaTickets"></tbody>
+                    </table>
+                </div>
+            </article>
+            <div id="estadoConexion" class="status">Preparando datos...</div>
+        </main>
+    </div>
+    <script src="js/common.js"></script>
+    <script src="js/tickets.js"></script>
+</body>
+
+</html>

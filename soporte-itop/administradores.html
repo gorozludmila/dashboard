@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Administradores Locales | Soporte iTop</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <div class="brandmark">SF</div>
+            <div><strong>Soporte Timbó y Firma Digital</strong><small>Unidad de Gestión Digital</small></div>
+        </div><a class="back" href="../portal.html">← Panel de accesos</a>
+    </header>
+    <div class="layout">
+        <aside class="sidebar">
+            <h3>Soporte iTop</h3>
+            <nav class="nav"><a href="index.html">Dashboard</a><a href="incidentes.html">Incidentes</a><a
+                    href="requerimientos.html">Requerimientos</a><a href="ministerios.html">Ministerios y
+                    Organismos</a><a class="active" href="administradores.html">Administradores Locales</a></nav>
+        </aside>
+        <main class="content">
+            <section class="hero"><span class="eyebrow">UGD · Administradores</span>
+                <h1>Administradores Locales</h1>
+                <p>Cruce entre el Excel de Administradores Locales y las personas que reportan tickets en iTop.</p>
+            </section>
+            <div id="avisoZip" class="notice" style="display:none">Para leer Administradores.xlsx instalá la extensión
+                de PHP: <strong>sudo apt install php8.3-zip</strong> y reiniciá el servidor.</div>
+            <section class="toolbar">
+                <div class="field"><label>Desde</label><input type="date" id="desde"></div>
+                <div class="field"><label>Hasta</label><input type="date" id="hasta"></div>
+                <div class="field"><label>Ministerio</label><select id="ministerio">
+                        <option value="">Todos</option>
+                    </select></div>
+                <div class="field"><label>Organismo</label><select id="organismo">
+                        <option value="">Todos</option>
+                    </select></div><button class="btn btn-primary" id="btnFiltrar" type="button">Aplicar
+                    filtros</button><button class="btn btn-light" id="btnLimpiar" type="button">Limpiar</button>
+            </section>
+            <section class="kpis" style="grid-template-columns:repeat(3,1fr)">
+                <article class="kpi"><span>Administradores registrados</span><strong id="registrados">0</strong>
+                </article>
+                <article class="kpi green"><span>Con actividad</span><strong id="activos">0</strong></article>
+                <article class="kpi pink"><span>Sin actividad</span><strong id="sinActividad">0</strong></article>
+            </section>
+            <article class="card">
+                <h3>Actividad de Administradores Locales</h3>
+                <div class="subtitle">Incidentes y requerimientos separados, más total y último ticket.</div>
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Administrador</th>
+                                <th>Ministerio</th>
+                                <th>Organismo</th>
+                                <th>Incidentes</th>
+                                <th>Requerimientos</th>
+                                <th>Total</th>
+                                <th>Último ticket</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaAdmins"></tbody>
+                    </table>
+                </div>
+            </article>
+            <div class="section-title">
+                <h2>Administradores sin actividad en el período</h2>
+            </div>
+            <article class="card">
+                <div class="table-wrap">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Administrador</th>
+                                <th>Ministerio</th>
+                                <th>Organismo</th>
+                                <th>Correo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaInactivos"></tbody>
+                    </table>
+                </div>
+            </article>
+            <div id="estadoConexion" class="status">Preparando administradores...</div>
+        </main>
+    </div>
+    <script src="js/common.js"></script>
+    <script src="js/administradores.js"></script>
+</body>
+
+</html>

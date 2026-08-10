@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Dashboard | Soporte Timbó y Firma Digital</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="brand">
+            <div class="brandmark">SF</div>
+            <div><strong>Soporte Timbó y Firma Digital</strong><small>Unidad de Gestión Digital</small></div>
+        </div><a class="back" href="../portal.html">← Panel de accesos</a>
+    </header>
+    <div class="layout">
+        <aside class="sidebar">
+            <h3>Soporte iTop</h3>
+            <nav class="nav"><a class="active" href="index.html">Inicio</a><a href="incidentes.html">Incidentes</a><a
+                    href="requerimientos.html">Requerimientos</a><a href="ministerios.html">Ministerios y
+                    Organismos</a><a href="administradores.html">Administradores Locales</a></nav>
+        </aside>
+        <main class="content">
+            <section class="hero"><span class="eyebrow">UGD · iTop</span>
+                <h1>Inicio</h1>
+                
+            </section>
+            <section class="toolbar">
+                <div class="field"><label>Desde</label><input type="date" id="desde"></div>
+                <div class="field"><label>Hasta</label><input type="date" id="hasta"></div>
+                <div class="field"><label>Ministerio</label><select id="ministerio">
+                        <option value="">Todos</option>
+                    </select></div>
+                <div class="field"><label>Organismo</label><select id="organismo">
+                        <option value="">Todos</option>
+                    </select></div>
+                <div class="field"><label>Tipo</label><select id="tipo">
+                        <option value="">Todos</option>
+                        <option>Incidente</option>
+                        <option>Requerimiento</option>
+                    </select></div>
+                <div class="field"><label>Estado</label><select id="estado">
+                        <option value="">Todos</option>
+                    </select></div>
+                <div class="field"><label>Servicio</label><select id="servicio">
+                        <option value="">Todos</option>
+                    </select></div>
+                <div class="field"><label>Persona</label><select id="persona_tipo">
+                        <option value="reportado">Reportado por</option>
+                        <option value="admin">Administrador Local</option>
+                        <option value="creador">Creador</option>
+                        <option value="analista">Analista UGD</option>
+                    </select></div>
+                <div class="field"><label>Nombre</label><select id="persona">
+                        <option value="">Todas</option>
+                    </select></div>
+                <div class="quick"><button type="button" data-periodo="semana">Semana</button><button type="button"
+                        data-periodo="mes">Mes</button><button type="button" data-periodo="anio">Año</button></div>
+                <button class="btn btn-primary" id="btnFiltrar" type="button">Aplicar filtros</button><button
+                    class="btn btn-light" id="btnLimpiar" type="button">Limpiar</button>
+            </section>
+            <section class="kpis">
+                <article class="kpi"><span>Total recibidos</span><strong id="totalTickets">0</strong></article>
+                <article class="kpi orange"><span>Incidentes</span><strong id="totalIncidentes">0</strong></article>
+                <article class="kpi purple"><span>Requerimientos</span><strong id="totalRequerimientos">0</strong>
+                </article>
+                <article class="kpi pink"><span>Abiertos</span><strong id="totalAbiertos">0</strong></article>
+                <article class="kpi green"><span>Cerrados / solucionados</span><strong
+                        id="totalCerrados">0</strong><small id="porcentaje">0% resueltos</small></article>
+            </section>
+            <section class="grid">
+                <article class="card">
+                    <h3>Evolución temporal</h3>
+                    <div class="subtitle">Recibidos vs. cerrados/solucionados por mes</div>
+                    <div class="chart"><canvas id="chartEvolucion"></canvas></div>
+                </article>
+                
+            </section>
+            <section class="grid equal">
+                <article class="card">
+                    <h3>Tickets por Ministerio</h3>
+                    <div class="chart tall"><canvas id="chartMinisterios"></canvas></div>
+                </article>
+                <article class="card">
+                    <h3>Estados registrados</h3>
+                    <div class="chart tall"><canvas id="chartEstados"></canvas></div>
+                </article>
+            </section>
+            <section class="grid equal">
+                <article class="card">
+                    <h3>Servicios más demandados</h3>
+                    <div class="chart"><canvas id="chartServicios"></canvas></div>
+                </article>
+                <article class="card">
+                    <h3>Tiempo de resolución</h3>
+                    <div class="subtitle">Promedio hasta solución o cierre de tickets con fechas disponibles.</div>
+                    <div class="kpi green" style="box-shadow:none"><span>Tiempo promedio</span><strong
+                            id="tiempo">—</strong></div>
+                </article>
+            </section>
+            <div id="estadoConexion" class="status">Preparando dashboard...</div>
+        </main>
+    </div>
+    <script src="js/common.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>
