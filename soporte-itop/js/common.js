@@ -35,4 +35,89 @@ async function cargarOpciones(){
 }
 function escapeHtml(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function baseChartOptions(horizontal=false){return {responsive:true,maintainAspectRatio:false,indexAxis:horizontal?'y':'x',plugins:{legend:{position:'bottom'}},scales:{x:{beginAtZero:true,grid:{color:'rgba(0,0,0,.04)'}},y:{beginAtZero:true,grid:{color:'rgba(0,0,0,.04)'}}}}}
-function initCommon(){fechasRapidas();cargarOpciones().catch(e=>setStatus('No se pudieron cargar los filtros: '+e.message,false));qs('btnLimpiar')?.addEventListener('click',()=>{document.querySelectorAll('.toolbar input,.toolbar select').forEach(e=>e.value='');qs('btnFiltrar')?.click()});}
+function initCommon(){fechasRapidas();cargarOpciones().catch(e=>setStatus('No se pudieron cargar los filtros: '+e.message,false));qs('btnLimpiar')?.addEventListener('click',()=>{document.querySelectorAll('.toolbar input,.toolbar select').forEach(e=>e.value='');qs('btnFiltrar')?.click()});initActualizador();}
+
+function formatearFechaHora(iso){
+  if(!iso) return '—';
+  try{ return new Date(iso).toLocaleString('es-AR',{dateStyle:'short',timeStyle:'short'}); }
+  catch(e){ return iso; }
+}
+
+// Botón hero "Actualizar datos desde iTop": dispara automation/exportacionitop.py
+// en segundo plano (api/actualizar.php) y consulta el progreso (api/estado_actualizacion.php)
+// hasta que termina, para después recargar la página con los CSV nuevos.
+function initActualizador(){
+  const btn = qs('btnActualizarDatos');
+  if(!btn) return;
+  const texto = qs('actualizarTexto');
+  const meta = qs('actualizarMeta');
+  const barraWrap = qs('actualizarBarraWrap');
+  const barra = qs('actualizarBarra');
+  let intervalo = null;
+
+  function pintarProgreso(p){
+    if(!barraWrap || !barra) return;
+    if(p==null){ barraWrap.style.display='none'; return; }
+    barraWrap.style.display='block';
+    barra.style.width = Math.max(0,Math.min(100,p))+'%';
+  }
+
+  function detener(){
+    if(intervalo){ clearInterval(intervalo); intervalo=null; }
+    btn.disabled=false;
+    btn.classList.remove('cargando');
+  }
+
+  async function consultar(){
+    let d;
+    try{
+      d = await API.get('api/estado_actualizacion.php');
+    }catch(e){
+      detener();
+      if(texto) texto.textContent = 'No se pudo consultar el estado: '+e.message;
+      return;
+    }
+    if(meta) meta.textContent = 'Última actualización: '+formatearFechaHora(d.ultima_actualizacion_datos);
+    if(d.en_progreso){
+      btn.disabled=true;
+      btn.classList.add('cargando');
+      if(texto) texto.textContent = d.paso || 'Actualizando...';
+      pintarProgreso(d.progreso);
+      if(!intervalo) intervalo=setInterval(consultar,2500);
+      return;
+    }
+    pintarProgreso(null);
+    const veniaCorriendo = intervalo!==null;
+    detener();
+    if(d.error){
+      if(texto) texto.textContent='Error: '+d.error;
+    }else if(texto){
+      texto.textContent = veniaCorriendo ? 'Datos actualizados' : 'Listo';
+    }
+    if(veniaCorriendo && !d.error){
+      setTimeout(()=>location.reload(),1000);
+    }
+  }
+
+  btn.addEventListener('click', async ()=>{
+    btn.disabled=true;
+    btn.classList.add('cargando');
+    if(texto) texto.textContent='Iniciando actualización...';
+    try{
+      const r = await fetch('api/actualizar.php',{method:'POST'});
+      const j = await r.json();
+      if(!j.ok){
+        if(texto) texto.textContent=j.error||'No se pudo iniciar la actualización';
+        btn.disabled=false; btn.classList.remove('cargando');
+        return;
+      }
+      if(!intervalo) intervalo=setInterval(consultar,2000);
+      consultar();
+    }catch(e){
+      if(texto) texto.textContent='Error al iniciar: '+e.message;
+      btn.disabled=false; btn.classList.remove('cargando');
+    }
+  });
+
+  consultar();
+}

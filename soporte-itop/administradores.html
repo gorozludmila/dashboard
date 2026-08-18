@@ -26,6 +26,17 @@
             <section class="hero"><span class="eyebrow">UGD · Administradores</span>
                 <h1>Administradores Locales</h1>
                 <p>Cruce entre el Excel de Administradores Locales y las personas que reportan tickets en iTop.</p>
+                <div class="hero-actualizar">
+                    <button class="btn-hero" id="btnActualizarDatos" type="button"><span
+                            class="btn-hero-icon">⟳</span><span>Actualizar datos desde iTop</span></button>
+                    <div class="hero-estado">
+                        <span class="hero-estado-texto" id="actualizarTexto">Listo</span>
+                        <span class="hero-estado-meta" id="actualizarMeta">Última actualización: —</span>
+                    </div>
+                    <div class="hero-barra" id="actualizarBarraWrap" style="display:none">
+                        <div class="hero-barra-relleno" id="actualizarBarra"></div>
+                    </div>
+                </div>
             </section>
             <div id="avisoZip" class="notice" style="display:none">Para leer Administradores.xlsx instalá la extensión
                 de PHP: <strong>sudo apt install php8.3-zip</strong> y reiniciá el servidor.</div>

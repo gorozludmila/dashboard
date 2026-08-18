@@ -1,0 +1,5 @@
+config_local.py
+estado.json
+estado.tmp
+actualizando.lock
+actualizando.log

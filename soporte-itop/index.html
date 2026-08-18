@@ -26,7 +26,17 @@
         <main class="content">
             <section class="hero"><span class="eyebrow">UGD · iTop</span>
                 <h1>Inicio</h1>
-                
+                <div class="hero-actualizar">
+                    <button class="btn-hero" id="btnActualizarDatos" type="button"><span
+                            class="btn-hero-icon">⟳</span><span>Actualizar datos desde iTop</span></button>
+                    <div class="hero-estado">
+                        <span class="hero-estado-texto" id="actualizarTexto">Listo</span>
+                        <span class="hero-estado-meta" id="actualizarMeta">Última actualización: —</span>
+                    </div>
+                    <div class="hero-barra" id="actualizarBarraWrap" style="display:none">
+                        <div class="hero-barra-relleno" id="actualizarBarra"></div>
+                    </div>
+                </div>
             </section>
             <section class="toolbar">
                 <div class="field"><label>Desde</label><input type="date" id="desde"></div>
